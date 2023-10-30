@@ -1,7 +1,7 @@
 {
   "name": "cms-dummy",
   "private": true,
-  "homepage": "https://vasya564.github.io/cms-dummy",
+  "homepage": "https://vasya564.github.io/cms-dummy/",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
