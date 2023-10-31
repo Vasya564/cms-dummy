@@ -1,5 +1,5 @@
 import { Suspense, lazy } from 'react';
-import { BrowserRouter, Route, Routes, Link, Outlet, Navigate } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Link, Outlet, Navigate, createHashRouter } from 'react-router-dom';
 import tabsData from './tabs.json';
 import './App.css';
 
@@ -30,19 +30,32 @@ const TabRoutes = () => {
   );
 }
 
+const tabRoutes = tabsData.map((tab) => (
+  {
+    path: tab.id,
+    element: <Tab path={tab.path} />,
+  }
+));
+
+const router = createHashRouter([
+  {
+    path: "/",
+    element: <TabRoutes />,
+    children: [
+      {
+        path: "",
+        element: <Navigate to={tabsData[0].path}/>,
+        default: true,
+      },
+      ...tabRoutes,
+    ],
+  },
+]);
+
 function App() {
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<TabRoutes />}>
-          <Route path='/' element={<Navigate to={tabsData[0].path}/>} />
-          {tabsData.map((tab) => (
-            <Route key={tab.id} path={tab.id} element={<Tab path={tab.path} />} />
-          ))}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <RouterProvider router={router}/>
   );
 }
 
